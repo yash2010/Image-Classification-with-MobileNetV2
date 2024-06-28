@@ -25,7 +25,7 @@ parser = argparse.ArgumentParser(description='Predict image classes using the tr
 parser.add_argument('--test_img_path', type=str, required=True, help='Path to the directory containing test images')
 args = parser.parse_args()
 
-dataset_dir = "101_ObjectCategories"
+dataset_dir = "Caltech-101/101_ObjectCategories"
 test_img_path = args.test_img_path
 
 images = []
