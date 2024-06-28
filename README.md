@@ -1,69 +1,83 @@
-# Image Classification with MobileNetV2
-This repository contains code for training an image classification model using TensorFlow and MobileNetV2, along with instructions for using the trained model to classify images.
+# MobileNetV2 Image Classification
+This repository contains the implementation of an image classification model using MobileNetV2. The model is trained on the 101_ObjectCategories dataset and can predict the class of input images.
+
+# Table of Contents
+- Introduction
+- Dataset
+- Installation
+- Usage
+- Model Architecture
+- Training
+- Evaluation
+- Prediction
+- Results
+  
+## Introduction
+This project implements a transfer learning approach using MobileNetV2 for image classification. The model is trained on the 101_ObjectCategories dataset and fine-tuned to recognize different categories of objects.
 
 ## Dataset
-The model is trained on the 101_ObjectCategories dataset, which contains various object categories. Each category has multiple images for training the model.
+The dataset used in this project is [101_ObjectCategories](https://data.caltech.edu/records/mzrjq-6wc02). It contains images of objects categorized into 101 different classes.
 
-## Requirements
-- Python 3.x
-- TensorFlow 2.x
-- NumPy
-- scikit-learn
-- scikit-image
-  
-Install dependencies using:
+## Installation
+To get started with this project, clone the repository and install the necessary dependencies:
 
 ```bash
-pip install tensorflow numpy scikit-learn scikit-image
+git clone https://github.com/yash2010/mobilenetv2-image-classification.git
+cd mobilenetv2-image-classification
+pip install -r requirements.txt
 ```
+## Usage
+1. Prepare the dataset: Download and extract the 101_ObjectCategories dataset into a directory named 101_ObjectCategories.
 
-## Setup
-
-1. Clone the repository:
+2. Run the training script: This script will train the model and save the best-performing model to model_trans.h5.
 
 ```bash
-git clone https://github.com/yash2010/Image-Classification-with-MobileNetV2.git
-```
-2. Navigate to the project repository
-
-```bash
-cd Image-Classification-with-MobileNetV
-```
-
-3. Download the 101_ObjectCategories dataset or prepare a similar structured dataset. You can find the link to 101_ObjectCategories dataset [here](https://data.caltech.edu/records/mzrjq-6wc02)
-Ensure the dataset is organized into subfolders where each subfolder represents a class/category of images.
-Test Images:
-
-Place your test images in the /data/selvaraju/Robotic_project/Lab_pictures directory. Supported formats are .png, .jpg, and .jpeg.
-Environment Setup:
-
-Ensure CUDA and cuDNN are installed for GPU support.
-Set the GPU visibility using os.environ['CUDA_VISIBLE_DEVICES'] = '1' in your Python script.
-Training
-Run the training script to train the model:
-bash
-Copy code
 python train.py
-This script will train the MobileNetV2 model using the dataset, validating on a subset split from the training data.
-Evaluation
-After training, the best model will be saved as model_trans.h5.
-The model can then be used to predict classes for test images located in /data/selvaraju/Robotic_project/Lab_pictures.
-Predictions
-Run the prediction script to classify test images:
-bash
-Copy code
-python predict.py
-This script will load the trained model and predict the classes for the test images.
-Additional Notes
-Model Architecture: The model architecture is based on MobileNetV2 with a Global Average Pooling layer and a Dense layer for classification.
-Callbacks: The training script uses ModelCheckpoint to save the best model and EarlyStopping to prevent overfitting.
-Data Augmentation: ImageDataGenerator is used for data augmentation during training.
-Contact
-For any issues or questions, please contact Your Name.
+```
 
-Replace <repository_url>, <repository_name>, and update the contact details with your information. This README provides a clear structure for users to understand how to set up the project, train the model, and use it for predictions. Adjust any paths or details as per your specific setup.
+3. Run the prediction script: This script will load test images and use the trained model to predict their classes.
+```bash
+python predict.py --test_img_path path_to_test_images
+```
 
+## Model Architecture
+The model is based on MobileNetV2, a pre-trained convolutional neural network designed for mobile and edge devices. The final layers are customized for our specific dataset.
 
+- __Base Model:__ MobileNetV2 (pre-trained on ImageNet)
 
+- __Global Average Pooling Layer__
 
+- __Dense Layer:__ Number of units equal to the number of classes, with softmax activation
 
+## Training
+The model is trained using the following configuration:
+
+- __Optimizer:__ Adam
+
+- __Learning Rate:__ 0.0001
+
+- __Loss Function:__ Categorical Crossentropy
+
+- __Metrics:__ Accuracy
+
+- __Epochs:__ 20
+
+- __Batch Size:__ 32
+
+- __Callbacks:__ ModelCheckpoint, EarlyStopping
+
+## Evaluation
+The model is evaluated on a validation set (20% of the training data) to monitor its performance and to prevent overfitting.
+
+## Prediction
+To predict the class of new images, run the predict.py script. It will output the predicted labels for the input test images.
+```bash
+python predict.py --test_img_path path_to_test_images
+```
+
+## Results
+The trained model achieves high accuracy on the validation set. Below are sample predictions for the test images:
+
+```less
+Predicted Labels: [class1, class2, class3, ...]
+```
