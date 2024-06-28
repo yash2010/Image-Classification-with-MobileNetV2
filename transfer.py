@@ -1,5 +1,6 @@
 import numpy as np
 import os
+import arparse
 import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
@@ -20,8 +21,12 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
+parser = argparse.ArgumentParser(description='Predict image classes using the trained MobileNetV2 model.')
+parser.add_argument('--test_img_path', type=str, required=True, help='Path to the directory containing test images')
+args = parser.parse_args()
+
 dataset_dir = "101_ObjectCategories"
-test_img_path = " "
+test_img_path = args.test_img_path
 
 images = []
 labels = []
